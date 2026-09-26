@@ -5,12 +5,12 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "agentguard"
 version = "0.1.0"
-description = "Production ready scaffold for agentguard."
+description = "Security and governance control plane for autonomous AI agents: policy engine, audit log, approval queue, kill switch."
 readme = "README.md"
 requires-python = ">=3.11"
 license = {text = "Apache-2.0"}
 authors = [
-    {name = "Emir Perla", email = "emirperla46@gmail.com"}
+    {name = "Emir Perla", email = "emirperla96@gmail.com"}
 ]
 keywords = ["AI", "agents", "guardrails"]
 classifiers = [
@@ -32,11 +32,14 @@ dependencies = [
     "opentelemetry-instrumentation-fastapi>=0.42",
 ]
 
-[project.optional.dev]
-pytest = ["pytest>=8.0", "pytest-asyncio>=0.23"]
-ruff = ["ruff>=0.6"]
-mypy = ["mypy>=1.10"]
-types-PyYAML = ["types-PyYAML>=6.0"]
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "pytest-asyncio>=0.23",
+    "ruff>=0.6",
+    "mypy>=1.10",
+    "types-PyYAML>=6.0",
+]
 
 [project.scripts]
 agentguard = "agentguard.cli:app"
@@ -44,3 +47,7 @@ agentguard = "agentguard.cli:app"
 [tool.ruff]
 line-length = 100
 target-version = "py311"
+
+[tool.ruff.lint]
+# B008: typer.Option(...) in argument defaults IS the documented Typer pattern.
+ignore = ["B008"]

@@ -1,17 +1,19 @@
-"""FastAPI service – the ${PKG_NAME} sidecar."""
+"""FastAPI service – the agentguard sidecar."""
 from __future__ import annotations
-import uvicorn
-from fastapi = FastAPI, HTTPException, Depends
-from fastapi.middleware.trustedhost = TrustedHostMiddleware
-from pydantic = BaseModel
-from typing = Optional
-from .policy = load_policy, is_allowed
-from .audit = get_engine, init_db, add_audit, list_audit
-from sqlalchemy.orm = Session
-from .models = Policy, AuditEntry
+
 import os
 
-app = FastAPI(title="${PKG_NAME}", version="0.1.0")
+import uvicorn
+from fastapi import Depends, FastAPI, HTTPException
+from fastapi.middleware.trustedhost import TrustedHostMiddleware
+from pydantic import BaseModel
+from sqlalchemy.orm import Session
+
+from .audit import add_audit, get_engine, init_db, list_audit
+from .models import AuditEntry, Policy
+from .policy import is_allowed, load_policy
+
+app = FastAPI(title="agentguard", version="0.1.0")
 
 # Trusted host (adjust for production)
 app.add_middleware(TrustedHostMiddleware, allowed_hosts=["*"])
@@ -23,7 +25,7 @@ def get_db():
         yield session
 
 # Load policy at startup (can be overridden via env)
-POLICY_PATH = os.getenv("${PKG_NAME}_POLICY", "policy.yaml")
+POLICY_PATH = os.getenv("AGENTGUARD_POLICY", "policy.yaml")
 try:
     POLICY: Policy = load_policy(POLICY_PATH)
 except Exception as e:
@@ -40,7 +42,7 @@ class ToolCallRequest(BaseModel):
 class ToolCallResponse(BaseModel):
     decision: str  # ALLOWED, DENIED, APPROVAL_REQUIRED
     audit_id: int
-    message: Optional[str] = None
+    message: str | None = None
 
 @app.post("/toolcall", response_model=ToolCallResponse)
 def toolcall(req: ToolCallRequest, session: Session = Depends(get_db)):
@@ -78,4 +80,4 @@ def get_audit(limit: int = 50, session: Session = Depends(get_db)):
     return list_audit(session, limit=limit)
 
 if __name__ == "__main__":
-    uvicorn.run("${PKG_NAME}.main:app", host="0.0.0.0", port=8000, reload=False)
+    uvicorn.run("agentguard.main:app", host="0.0.0.0", port=8000, reload=False)

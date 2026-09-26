@@ -68,3 +68,7 @@ docker-compose.override.yml
 
 # Local config
 policy.yaml
+
+# Runtime state
+data/
+*.db

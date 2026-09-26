@@ -1,14 +1,20 @@
-"""Typer‑based CLI for ${PKG_NAME}."""
+"""Typer‑based CLI for agentguard."""
 from __future__ import annotations
-import typer
-import yaml
+
+import os
 from pathlib import Path
-from .policy = Policy, load_policy
+
+import typer
 import uvicorn
+import yaml
 
-cli = typer.Typer(add_completion=False, help="${PKG_NAME} CLI")
+from .policy import Policy, load_policy
 
-@cli.command()
+app = typer.Typer(add_completion=False, help="agentguard CLI")
+# Back-compat alias: earlier docs/READMEs refer to `cli`.
+cli = app
+
+@app.command()
 def init(
     agent: str = typer.Option(..., help="Agent name, e.g. research-bot"),
     out: Path = typer.Option("policy.yaml", help="Where to write example policy"),
@@ -23,14 +29,14 @@ def init(
     out.write_text(yaml.dump(example.model_dump(), sort_keys=False))
     typer.secho(f"✅ Example policy written to {out}", fg=typer.colors.GREEN)
 
-@cli.command()
+@app.command()
 def run(
     policy: Path = typer.Option("policy.yaml", help="Path to policy YAML"),
     host: str = typer.Option("0.0.0.0", help="Host to bind"),
     port: int = typer.Option(8000, help="Port to bind"),
     reload: bool = typer.Option(False, help="Enable uvicorn reload (dev)"),
 ):
-    """Run the ${PKG_NAME} FastAPI server."""
+    """Run the agentguard FastAPI server."""
     # Validate policy early
     try:
         load_policy(policy)
@@ -38,14 +44,16 @@ def run(
         typer.secho(f"❌ Invalid policy: {e}", fg=typer.colors.RED)
         raise typer.Exit(code=1)
 
-    typer.secho(f"🚀 Starting ${PKG_NAME} on http://{host}:{port}", fg=typer.colors.BLUE)
+    typer.secho(f"🚀 Starting agentguard on http://{host}:{port}", fg=typer.colors.BLUE)
+    # uvicorn.run() has no `env` parameter: set it in the process environment
+    # so agentguard.main picks the policy path up at import time.
+    os.environ["AGENTGUARD_POLICY"] = str(policy)
     uvicorn.run(
-        "${PKG_NAME}.main:app",
+        "agentguard.main:app",
         host=host,
         port=port,
         reload=reload,
-        env={"${PKG_NAME}_POLICY": str(policy)},
     )
 
 if __name__ == "__main__":
-    cli()
+    app()

@@ -1,9 +1,12 @@
 """Simple YAML policy loader and evaluator."""
 from __future__ import annotations
-import yaml
+
 from pathlib import Path
-from typing import List
+
+import yaml
+
 from .models import Policy
+
 
 def load_policy(path: str | Path) -> Policy:
     with open(path, "r", encoding="utf-8") as f:

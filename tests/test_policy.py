@@ -1,5 +1,7 @@
-from ${PKG_NAME}.policy import load_policy, is_allowed
 import yaml
+
+from agentguard.policy import is_allowed, load_policy
+
 
 def test_policy_load_and_eval(tmp_path):
     policy_content = {
