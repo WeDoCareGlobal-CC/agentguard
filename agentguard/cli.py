@@ -8,7 +8,8 @@ import typer
 import uvicorn
 import yaml
 
-from .policy import Policy, load_policy
+from .models import Limits, Policy
+from .policy import load_policy
 
 app = typer.Typer(add_completion=False, help="agentguard CLI")
 # Back-compat alias: earlier docs/READMEs refer to `cli`.
@@ -18,16 +19,24 @@ cli = app
 def init(
     agent: str = typer.Option(..., help="Agent name, e.g. research-bot"),
     out: Path = typer.Option("policy.yaml", help="Where to write example policy"),
+    max_cpm: int = typer.Option(
+        60, help="Enforced rate limit: max tool calls per minute (0 = unlimited)"
+    ),
 ):
     """Create a starter policy.yaml."""
     example = Policy(
         agent=agent,
         allowed_tools=["web_search", "read_file"],
         denied_tools=["send_email", "transfer_funds"],
-        limits={"max_usd_per_day": 5.00, "max_tokens_per_call": 4000},
+        limits=Limits(
+            max_calls_per_minute=max_cpm or None,
+            max_usd_per_day=5.00,
+            max_tokens_per_call=4000,
+        ),
     )
     out.write_text(yaml.dump(example.model_dump(), sort_keys=False))
-    typer.secho(f"✅ Example policy written to {out}", fg=typer.colors.GREEN)
+    limit_note = f"{max_cpm}/min" if max_cpm else "no rate limit"
+    typer.secho(f"✅ Example policy written to {out} (rate limit: {limit_note})", fg=typer.colors.GREEN)
 
 @app.command()
 def run(
