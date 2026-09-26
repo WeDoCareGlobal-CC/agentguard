@@ -3,6 +3,7 @@
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![ORCID](https://img.shields.io/badge/orcid-0009-0009-8515-2727-brightgreen.svg)](https://orcid.org/0009-0009-8515-2727)
 [![Python](https://img.shields.io/badge/python-3.11%20%7C%203.12-blue)](https://www.python.org())
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22945778.svg)](https://doi.org/10.5281/zenodo.22945778)
 [![Tests](https://github.com/we-do-care-global/agentguard/actions/workflows/ci.yml/badge.svg)](https://github.com/we-do-care-global/agentguard/actions/workflows/ci.yml)
 
 ## 🚀 Live prototype
