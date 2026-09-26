@@ -1,7 +1,7 @@
 {
-  "title": "AgentGuard – Security & Governance Control Plane for Autonomous AI Agents",
+  "title": "AgentGuard \u2013 Security & Governance Control Plane for Autonomous AI Agents",
   "upload_type": "software",
-  "description": "Policy engine, tool‑call proxy, append‑only audit log, human‑in‑the‑loop approvals, and kill‑switch for LLM‑based agents.",
+  "description": "Policy engine, tool\u2011call proxy, append\u2011only audit log, human\u2011in\u2011the\u2011loop approvals, and kill\u2011switch for LLM\u2011based agents.",
   "creators": [
     {
       "name": "Perla, Emir",
@@ -25,6 +25,6 @@
       "scheme": "url"
     }
   ],
-  "version": "0.1.0",
+  "version": "0.1.1",
   "publication_date": "2026-09-24"
 }
