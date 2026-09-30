@@ -4,14 +4,21 @@ from __future__ import annotations
 import os
 
 import uvicorn
-from fastapi import Depends, FastAPI, HTTPException
+from fastapi import Depends, FastAPI, HTTPException, Response
 from fastapi.middleware.trustedhost import TrustedHostMiddleware
 from pydantic import BaseModel
+from prometheus_client import Counter, Histogram, generate_latest, CONTENT_TYPE_LATEST
 from sqlalchemy.orm import Session
 
 from .audit import add_audit, get_engine, init_db, list_audit, verify_chain
 from .models import AuditEntry, Policy
 from .policy import PolicyError, check_rate_limit, is_allowed, load_policy
+
+# Prometheus metrics
+REQUEST_COUNT = Counter("http_requests_total", "Total HTTP requests", ["method", "endpoint", "status"])
+REQUEST_LATENCY = Histogram("http_request_duration_seconds", "HTTP request latency", ["method", "endpoint"])
+TOOL_CALLS = Counter("tool_calls_total", "Total tool calls", ["tool", "decision"])
+TOOL_CALL_DURATION = Histogram("tool_call_duration_seconds", "Tool call duration", ["tool"])
 
 app = FastAPI(title="agentguard", version="0.2.0")
 
@@ -97,11 +104,19 @@ def toolcall(req: ToolCallRequest, session: Session = Depends(get_db)):
         ),
     )
 
+    TOOL_CALLS.labels(tool=req.tool, decision=decision).inc()
+
     return ToolCallResponse(
         decision=decision,
         audit_id=audit_entry.id,
         message=None if allowed else "Tool denied – awaiting approval",
     )
+
+
+@app.get("/metrics")
+async def metrics():
+    """Prometheus metrics endpoint."""
+    return Response(content=generate_latest(), media_type=CONTENT_TYPE_LATEST)
 
 
 # Optional: endpoint to fetch recent audit
