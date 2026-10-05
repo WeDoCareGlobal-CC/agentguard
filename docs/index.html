@@ -1,84 +1,383 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark" class="wdcg-system-page wdcg-system-guard">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>AgentGuard — Security & Governance for AI Agents</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AgentGuard — Security & Governance for AI Agents | We Do Care Global</title>
+<meta name="description" content="AgentGuard by We Do Care Global: policy engine, tool-call proxy, append-only audit log, human-in-the-loop approvals, and kill-switch for LLM-based agents. Apache-2.0, ORCID 0009-0009-8515-2727.">
+<meta name="author" content="Emir Perla — We Do Care Global — ORCID 0009-0009-8515-2727">
+<meta name="theme-color" content="#07080c">
+<link rel="canonical" href="https://we-do-care-global.github.io/agentguard/">
+<link rel="icon" href="assets/logo.jpg">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="We Do Care Global">
+<meta property="og:title" content="AgentGuard — Security & Governance for AI Agents">
+<meta property="og:description" content="Policy engine, tool-call proxy, audit log, approvals, and kill-switch for autonomous agents.">
+<meta property="og:url" content="https://we-do-care-global.github.io/agentguard/">
+<meta property="og:image" content="https://raw.githubusercontent.com/we-do-care-global/we-do-care-global/main/public/logo.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="AgentGuard — Security & Governance for AI Agents">
+<meta name="twitter:description" content="Agent security & governance control plane for LLM-based agents.">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/we-do-care-global/we-do-care-global/main/public/logo.jpg">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"AgentGuard","applicationCategory":"SecurityApplication","operatingSystem":"Cross-platform","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"author":{"@type":"Person","name":"Emir Perla","sameAs":["https://orcid.org/0009-0009-8515-2727"]},"publisher":{"@type":"Organization","name":"We Do Care Global"},"license":"https://www.apache.org/licenses/LICENSE-2.0","codeRepository":"https://github.com/we-do-care-global/agentguard"}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="templates/brand-system/wdcg-brand-system.css">
+
 <style>
-:root{--bg:#0a0b10;--bg2:#101218;--card:#14161f;--border:#232635;--text:#e8eaf2;--muted:#8b90a6;--accent:#ff4d4d;--accent2:#ff9a3c}
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased}
-code,pre,.mono{font-family:'SF Mono',ui-monospace,Menlo,Consolas,monospace}
-a{color:inherit;text-decoration:none}
-nav{position:sticky;top:0;z-index:100;background:rgba(10,11,16,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
-.nav-inner{max-width:1100px;margin:0 auto;padding:16px 24px;display:flex;align-items:center;justify-content:space-between}
-.nav-inner a{font-weight:600;font-size:.95rem;color:var(--text)}
-.hero{max-width:1100px;margin:0 auto;padding:120px 24px 80px}
-.hero h1{font-size:3.6rem;font-weight:800;letter-spacing:-.03em;line-height:1.05;margin-bottom:24px}
-.hero .tagline{font-size:1.25rem;color:var(--muted);max-width:640px;margin-bottom:32px}
-.badges{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:40px}
-.badge{padding:6px 14px;border:1px solid var(--border);border-radius:999px;font-size:.82rem;font-weight:600;color:var(--muted);background:var(--card)}
-.cta{display:inline-flex;gap:12px}
-.btn{padding:12px 24px;border-radius:10px;font-weight:700;font-size:.95rem;transition:transform .1s,box-shadow .2s}
-.btn-primary{background:var(--accent);color:#fff;box-shadow:0 0 0 0 rgba(255,77,77,.4)}
-.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(255,77,77,.35)}
-.btn-secondary{background:var(--card);color:var(--text);border:1px solid var(--border)}
-.section{max-width:1100px;margin:0 auto;padding:80px 24px}
-.section h2{font-size:2rem;font-weight:700;margin-bottom:40px;letter-spacing:-.02em}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:24px}
-.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:32px;transition:transform .15s,border-color .15s}
-.card:hover{transform:translateY(-3px);border-color:var(--accent)}
-.card h3{font-size:1.1rem;font-weight:700;margin-bottom:8px;color:var(--text)}
-.card p{color:var(--muted);font-size:.95rem}
-.arch{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:32px;margin-top:32px}
-.arch pre{background:#0d0e14;padding:16px;border-radius:10px;overflow-x:auto;font-size:.85rem;color:#c0d0e0;border:1px solid var(--border)}
-.stack{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
-.stack span{padding:6px 12px;border:1px solid var(--border);border-radius:6px;font-size:.85rem;color:var(--muted);background:var(--card)}
-.quickstart{background:#0d0e14;border:1px solid var(--border);border-radius:12px;padding:24px;margin-top:24px}
-.quickstart pre{background:#000;padding:16px;border-radius:8px;overflow-x:auto;font-size:.85rem;border:1px solid var(--border);color:#e8eaf2}
-footer{border-top:1px solid var(--border);padding:40px 24px;text-align:center;color:var(--muted);font-size:.9rem}
-@media(max-width:640px){.hero h1{font-size:2.4rem}.nav-inner{flex-wrap:wrap;gap:8px}}
+.wdcg-system-hero {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 120px 24px 80px;
+  text-align: center;
+}
+.wdcg-system-hero h1 {
+  font-family: var(--wdcg-font-display);
+  font-size: 3.4rem;
+  font-weight: 400;
+  color: var(--wdcg-system-color);
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  margin-bottom: 24px;
+}
+.wdcg-system-hero .tagline {
+  font-size: 1.15rem;
+  color: var(--wdcg-text-2);
+  max-width: 660px;
+  margin: 18px auto 0;
+}
+.wdcg-system-hero .badges {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 26px;
+}
+.wdcg-system-hero .badge {
+  font-family: var(--wdcg-font-mono);
+  font-size: 0.72rem;
+  padding: 5px 10px;
+  border-radius: 6px;
+  background: var(--wdcg-bg-1);
+  border: 1px solid var(--wdcg-line);
+  color: var(--wdcg-text-3);
+}
+.wdcg-system-hero .badge b { color: var(--wdcg-text); font-weight: 500; }
+.wdcg-system-hero .cta {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 28px;
+}
+.wdcg-system-section {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 56px 24px;
+  border-top: 1px solid var(--wdcg-line);
+}
+.wdcg-system-section h2 {
+  font-family: var(--wdcg-font-display);
+  font-size: 2rem;
+  font-weight: 400;
+  color: var(--wdcg-text);
+  margin-bottom: 10px;
+}
+.wdcg-system-section .lead {
+  color: var(--wdcg-text-2);
+  max-width: 640px;
+  margin-bottom: 32px;
+}
+.wdcg-system-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+.wdcg-system-card {
+  background: var(--wdcg-bg-1);
+  border: 1px solid var(--wdcg-line);
+  border-radius: var(--wdcg-r);
+  padding: 26px;
+  transition: transform var(--wdcg-dur-fast), border-color var(--wdcg-dur-fast);
+}
+.wdcg-system-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--wdcg-system-color);
+}
+.wdcg-system-card h3 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--wdcg-system-color);
+}
+.wdcg-system-card p {
+  color: var(--wdcg-text-2);
+  font-size: 0.92rem;
+  margin: 0;
+}
+.wdcg-system-pre {
+  background: var(--wdcg-bg-1);
+  border: 1px solid var(--wdcg-line);
+  border-radius: var(--wdcg-r);
+  padding: 20px;
+  overflow: auto;
+  font-family: var(--wdcg-font-mono);
+  font-size: 0.82rem;
+  line-height: 1.7;
+  color: var(--wdcg-text);
+}
+.wdcg-system-pre .c { color: var(--wdcg-text-3); }
+.wdcg-system-pre .k { color: var(--wdcg-system-color); }
+.wdcg-system-pre .s { color: #8fd6c0; }
+.wdcg-system-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+.wdcg-system-table th,
+.wdcg-system-table td {
+  text-align: left;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--wdcg-line);
+}
+.wdcg-system-table th {
+  color: var(--wdcg-system-color);
+  font-weight: 600;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.wdcg-system-table td code {
+  font-family: var(--wdcg-font-mono);
+  font-size: 0.82rem;
+}
+.wdcg-system-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 18px;
+}
+.wdcg-system-chip {
+  font-family: var(--wdcg-font-mono);
+  font-size: 0.72rem;
+  padding: 5px 11px;
+  border-radius: 999px;
+  background: var(--wdcg-bg-1);
+  border: 1px solid var(--wdcg-line);
+  color: var(--wdcg-text-3);
+}
+.wdcg-system-footer {
+  border-top: 1px solid var(--wdcg-line);
+  padding: 40px 24px;
+  text-align: center;
+  color: var(--wdcg-text-3);
+  font-size: 0.9rem;
+}
+.wdcg-system-footer .seal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.wdcg-system-footer .seal img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  box-shadow: 0 4px 20px rgba(217, 169, 95, 0.35);
+}
 </style>
 </head>
 <body>
-<nav><div style="text-align:center;padding:10px 0"><img src="assets/logo.jpg" alt="Logo" style="width:100px;border-radius:50%;box-shadow:0 4px 20px rgba(217,169,95,.4)"></div><div class="nav-inner"><a href="#">AgentGuard</a><div><a href="#features">Features</a> <a href="#quickstart">Quickstart</a> <a href="https://github.com/we-do-care-global/agentguard" target="_blank">GitHub →</a></div></div></nav>
-<header class="hero"><h1>AgentGuard<br><span style="color:var(--accent)">Security &amp; Governance for Autonomous AI Agents</span></h1><p class="tagline">Policy engine, tool-call proxy, append-only audit log, human-in-the-loop approvals, and kill-switch for LLM-based agents.</p>
-<div class="badges"><span class="badge">Apache 2.0</span><span class="badge">ORCID: 0009-0009-8515-2727</span><span class="badge">Python 3.11 / 3.12</span><span class="badge">87% test coverage</span></div>
-<div class="cta"><a class="btn btn-primary" href="https://github.com/we-do-care-global/agentguard">Star on GitHub</a> <a class="btn btn-secondary" href="#quickstart">Quickstart</a></div>
+
+<nav class="wdcg-nav">
+  <div class="wdcg-nav__brand" onclick="window.scrollTo({top:0, behavior:'smooth'})">
+    <div class="wdcg-brand-seal-wrapper">
+      <img src="https://raw.githubusercontent.com/we-do-care-global/we-do-care-global/main/public/logo.jpg" 
+           onerror="if(this.src!=='https://we-do-care-global.github.io/we-do-care-global/assets/logo.jpg'){this.src='https://we-do-care-global.github.io/we-do-care-global/assets/logo.jpg';}else{this.src='assets/logo.jpg';}" 
+           alt="We Do Care Global" class="wdcg-brand-seal-img">
+    </div>
+    <div>
+      <div class="wdcg-nav__title">AgentGuard</div>
+      <div class="wdcg-nav__sub">We Do Care Global · Security & Governance Control Plane</div>
+    </div>
+  </div>
+
+  <div class="wdcg-nav__links">
+    <a href="https://we-do-care-global.github.io/we-do-care-global/" class="wdcg-nav__link">← WDCG Portal</a>
+    <div class="wdcg-dropdown">
+      <button class="wdcg-dropdown__btn" type="button">
+        Sister Platforms ▾
+      </button>
+      <div class="wdcg-dropdown__menu">
+        <a class="wdcg-dropdown__item" href="https://we-do-care-global.github.io/agentguard/" target="_blank" rel="noopener">
+          <div class="wdcg-dropdown__item-ico" style="color:var(--wdcg-color-guard)">🛡️</div>
+          <div><div class="wdcg-dropdown__item-name">AgentGuard</div><div class="wdcg-dropdown__item-sub">Security & Policy Control Plane</div></div>
+        </a>
+        <a class="wdcg-dropdown__item" href="https://foundationcentar-demo-rkwero.v2.appdeploy.ai/" target="_blank" rel="noopener">
+          <div class="wdcg-dropdown__item-ico" style="color:var(--wdcg-color-foundation)">🏛️</div>
+          <div><div class="wdcg-dropdown__item-name">FoundationCentar</div><div class="wdcg-dropdown__item-sub">One-Click Multi-Agent Factory</div></div>
+        </a>
+        <a class="wdcg-dropdown__item" href="https://we-do-care-global.github.io/enterprise-hybrid-rag/" target="_blank" rel="noopener">
+          <div class="wdcg-dropdown__item-ico" style="color:var(--wdcg-color-rag)">🔍</div>
+          <div><div class="wdcg-dropdown__item-name">Enterprise Hybrid-RAG</div><div class="wdcg-dropdown__item-sub">NVIDIA NeMo Dense/Sparse Search</div></div>
+        </a>
+        <a class="wdcg-dropdown__item" href="https://we-do-care-global.github.io/agent-eval/" target="_blank" rel="noopener">
+          <div class="wdcg-dropdown__item-ico" style="color:var(--wdcg-color-eval)">📊</div>
+          <div><div class="wdcg-dropdown__item-name">Agent Eval</div><div class="wdcg-dropdown__item-sub">Observability & Token Telemetry</div></div>
+        </a>
+        <a class="wdcg-dropdown__item" href="https://we-do-care-global.github.io/agentvault/" target="_blank" rel="noopener">
+          <div class="wdcg-dropdown__item-ico" style="color:var(--wdcg-color-vault)">🔐</div>
+          <div><div class="wdcg-dropdown__item-name">AgentVault</div><div class="wdcg-dropdown__item-sub">Zero-Trust Secrets & Tools</div></div>
+        </a>
+        <a class="wdcg-dropdown__item" href="https://we-do-care-global.github.io/pharma-intelligence-os/" target="_blank" rel="noopener">
+          <div class="wdcg-dropdown__item-ico" style="color:var(--wdcg-color-pharma)">💊</div>
+          <div><div class="wdcg-dropdown__item-name">Pharma Intelligence OS</div><div class="wdcg-dropdown__item-sub">Pharmacovigilance & FDA Safety</div></div>
+        </a>
+      </div>
+    </div>
+    <a href="#features" class="wdcg-nav__link">Features</a>
+    <a href="#quickstart" class="wdcg-nav__link">Quickstart</a>
+    <a href="#evidence" class="wdcg-nav__link">Evidence</a>
+  </div>
+
+  <div class="wdcg-nav__actions">
+    <button class="wdcg-theme-btn" id="themeBtn" type="button" aria-label="Toggle Theme">☾</button>
+    <a class="wdcg-btn wdcg-btn-primary" href="https://github.com/we-do-care-global/agentguard" target="_blank" rel="noopener" style="padding: 8px 16px; font-size: 0.82rem;">GitHub ↗</a>
+  </div>
+</nav>
+
+<header class="wdcg-system-hero">
+  <h1>AgentGuard<br><span style="color:var(--wdcg-system-color)">Security & Governance for Autonomous AI Agents</span></h1>
+  <p class="tagline">Policy engine, tool-call proxy, append-only audit log, human-in-the-loop approvals, and kill-switch for LLM-based agents.</p>
+  <div class="badges">
+    <span class="badge">Apache 2.0</span>
+    <span class="badge"><b>ORCID:</b> 0009-0009-8515-2727</span>
+    <span class="badge"><b>Version:</b> v0.1.2</span>
+    <span class="badge"><b>DOI:</b> 10.5281/zenodo.23108383</span>
+  </div>
+  <div class="cta">
+    <a class="wdcg-btn wdcg-btn-primary" href="https://github.com/we-do-care-global/agentguard" target="_blank" rel="noopener">Star on GitHub ↗</a>
+    <a class="wdcg-btn wdcg-btn-outline" href="#quickstart">Quickstart →</a>
+    <a class="wdcg-btn wdcg-btn-live" href="https://we-do-care-global.github.io/agentguard/" target="_blank" rel="noopener">Live App ↗</a>
+  </div>
 </header>
 
 <main>
-<section class="section" id="problem"><div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center"><div><h2>The Problem</h2><p style="color:var(--muted)">Agents now send email, call APIs, move money, and interact with wallets — with almost no governance layer. There is no standard answer to: <strong>What is this agent allowed to do?</strong> <strong>What did it actually do?</strong> <strong>Who approved it?</strong> <strong>How do I kill it mid-run?</strong></p></div><div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px"><h3 style="margin-bottom:12px">AgentGuard answers</h3><ul style="color:var(--muted);line-height:2"><li>YAML policy engine (allow/deny tools, cap spend, limit tokens)</li><li>Tool-call proxy for LangChain, LangGraph, MCP</li><li>Append-only audit log — every action, queryable</li><li>Human-in-the-loop approval queue</li><li>One-click kill switch per agent</li></ul></div></div></section>
+  <section class="wdcg-system-section" id="problem">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center">
+      <div>
+        <h2>The Problem</h2>
+        <p style="color:var(--wdcg-text-2);line-height:1.7">Agents now send email, call APIs, move money, and interact with wallets — with almost no governance layer. There is no standard answer to: <strong>What is this agent allowed to do?</strong> <strong>What did it actually do?</strong> <strong>Who approved it?</strong> <strong>How do I kill it mid-run?</strong></p>
+      </div>
+      <div style="background:var(--wdcg-bg-1);border:1px solid var(--wdcg-line);border-radius:var(--wdcg-r);padding:24px">
+        <h3 style="margin-bottom:12px;color:var(--wdcg-system-color)">AgentGuard answers</h3>
+        <ul style="color:var(--wdcg-text-2);line-height:2">
+          <li>YAML policy engine (allow/deny tools, cap spend, limit tokens)</li>
+          <li>Tool-call proxy for LangChain, LangGraph, MCP</li>
+          <li>Append-only audit log — every action, queryable</li>
+          <li>Human-in-the-loop approval queue</li>
+          <li>One-click kill switch per agent</li>
+        </ul>
+      </div>
+    </div>
+  </section>
 
-<section class="section" id="features"><h2>Features</h2><div class="grid"><article class="card"><h3>Policy Engine</h3><p>YAML-based allow/deny lists, spend caps, token limits. Load at startup; enforce at every tool call.</p></article><article class="card"><h3>Audit Log</h3><p>Append-only SQLite/SQLAlchemy log. Query by agent, tool, decision, or approved-by.</p></article><article class="card"><h3>Approval Queue</h3><p>Denied actions route to a human-in-the-loop queue. Approve or deny with a single call.</p></article><article class="card"><h3>Kill Switch</h3><p>Per-agent kill switch stops execution immediately — no partial state corruption.</p></article><article class="card"><h3>Docker Compose</h3><p>FastAPI + PostgreSQL + Redis in one command. Ready for production.</p></article><article class="card"><h3>CLI + API</h3><p>Typer CLI (init, run) and FastAPI endpoints (/toolcall, /audit).</p></article></div></section>
+  <section class="wdcg-system-section" id="features">
+    <h2>Features</h2>
+    <p class="lead">Built for production autonomous agent fleets.</p>
+    <div class="wdcg-system-cards">
+      <article class="wdcg-system-card"><h3>Policy Engine</h3><p>YAML-based allow/deny lists, spend caps, token limits. Load at startup; enforce at every tool call.</p></article>
+      <article class="wdcg-system-card"><h3>Audit Log</h3><p>Append-only SQLite/SQLAlchemy log. Query by agent, tool, decision, or approved-by.</p></article>
+      <article class="wdcg-system-card"><h3>Approval Queue</h3><p>Denied actions route to a human-in-the-loop queue. Approve or deny with a single call.</p></article>
+      <article class="wdcg-system-card"><h3>Kill Switch</h3><p>Per-agent kill switch stops execution immediately — no partial state corruption.</p></article>
+      <article class="wdcg-system-card"><h3>Docker Compose</h3><p>FastAPI + PostgreSQL + Redis in one command. Ready for production.</p></article>
+      <article class="wdcg-system-card"><h3>CLI + API</h3><p>Typer CLI (init, run) and FastAPI endpoints (/toolcall, /audit).</p></article>
+    </div>
+  </section>
 
-<section class="section" id="architecture"><h2>Architecture</h2><div class="arch"><pre>
+  <section class="wdcg-system-section" id="architecture">
+    <h2>Architecture</h2>
+    <div class="wdcg-system-pre"><pre>
 ┌─────────────┐     ┌──────────────┐     ┌─────────────┐
 │   Agent     │────▶│  Policy      │────▶│  Tool Call  │
 │  (LangGraph)│     │  Engine      │     │  Proxy      │
 └─────────────┘     └──────────────┘     └─────────────┘
                             │                    │
                             ▼                    ▼
-                      ┌──────────┐        ┌──────────┐
-                      │  Audit   │        │  Kill    │
-                      │  Log     │        │  Switch  │
-                      └──────────┘        └──────────┘
-</pre></div></section>
+                     ┌──────────────┐     ┌─────────────┐
+                     │  Audit Log   │     │  Approval   │
+                     │  (SQLite)    │     │  Queue      │
+                     └──────────────┘     └─────────────┘
+                            │
+                            ▼
+                     ┌──────────────┐
+                     │  Kill Switch │
+                     │  (instant)   │
+                     └──────────────┘</pre></div>
+    <div class="wdcg-system-chips">
+      <span class="wdcg-system-chip">Python 3.11+</span>
+      <span class="wdcg-system-chip">FastAPI</span>
+      <span class="wdcg-system-chip">SQLAlchemy</span>
+      <span class="wdcg-system-chip">PostgreSQL</span>
+      <span class="wdcg-system-chip">Redis</span>
+      <span class="wdcg-system-chip">Typer CLI</span>
+      <span class="wdcg-system-chip">Docker Compose</span>
+    </div>
+  </section>
 
-<section class="section" id="stack"><h2>Tech Stack</h2><div class="stack"><span>Python 3.11 / 3.12</span><span>FastAPI</span><span>Pydantic v2</span><span>SQLAlchemy 2.0</span><span>Typer</span><span>Uvicorn</span><span>PostgreSQL</span><span>Redis</span><span>OpenTelemetry</span><span>Docker Compose</span><span>Apache 2.0</span></div></section>
+  <section class="wdcg-system-section" id="quickstart">
+    <h2>Quickstart</h2>
+    <div class="wdcg-system-pre"><pre><code>git clone https://github.com/we-do-care-global/agentguard.git
+cd agentguard
+cp policy.example.yaml policy.yaml
+# edit policy.yaml for your agent
+docker compose up -d
+# API at http://localhost:8000
+# python -m agentguard run --policy policy.yaml</code></pre></div>
+  </section>
 
-<section class="section" id="quickstart"><h2>Quickstart</h2><div class="quickstart"><pre><code># Install
-pip install agentguard
-
-# Init policy
-agentguard init --agent research-bot
-
-# Run server
-agentguard run --policy policy.yaml
-</code></pre><p style="color:var(--muted);margin-top:12px">Docker: <code>docker compose up -d</code> — API at <code>http://localhost:8000</code></p></div></section>
-
-<section class="section" id="roadmap"><h2>Roadmap</h2><div class="grid"><article class="card"><h3>v0.2</h3><p>Next.js dashboard + Slack approvals.</p></article><article class="card"><h3>v0.3</h3><p>Prompt-injection detector (heuristic + ML).</p></article><article class="card"><h3>v0.4</h3><p>Wallet risk scoring (web3.py).</p></article><article class="card"><h3>v0.5</h3><p>MCP-native server + TypeScript SDK.</p></article></div></section>
+  <section class="wdcg-system-section" id="evidence">
+    <h2>Evidence & Research</h2>
+    <p class="lead">Open work. Permanent record.</p>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center">
+      <a class="wdcg-btn wdcg-btn-outline" href="https://github.com/we-do-care-global/agentguard" target="_blank" rel="noopener"><b>GitHub</b><br><span style="font-size:0.75rem">Source & releases ↗</span></a>
+      <a class="wdcg-btn wdcg-btn-outline" href="https://orcid.org/0009-0009-8515-2727" target="_blank" rel="noopener"><b>ORCID</b><br><span style="font-size:0.75rem">Author record ↗</span></a>
+      <a class="wdcg-btn wdcg-btn-outline" href="https://zenodo.org/communities/we-do-care-global" target="_blank" rel="noopener"><b>Zenodo</b><br><span style="font-size:0.75rem">Research archive ↗</span></a>
+      <a class="wdcg-btn wdcg-btn-primary" href="https://doi.org/10.5281/zenodo.23108383" target="_blank" rel="noopener"><b>DOI</b><br><span style="font-size:0.75rem">10.5281/zenodo.23108383 ↗</span></a>
+    </div>
+  </section>
 </main>
 
-<footer><p>AgentGuard v0.1.0 — <a href="https://github.com/we-do-care-global/agentguard">github.com/we-do-care-global/agentguard</a> · <a href="https://orcid.org/0009-0009-8515-2727">ORCID 0009-0009-8515-2727</a> · Apache 2.0</p></footer>
-</body></html>
+<footer class="wdcg-system-footer">
+  <div class="seal">
+    <img src="https://raw.githubusercontent.com/we-do-care-global/we-do-care-global/main/public/logo.jpg" 
+         onerror="if(this.src!=='https://we-do-care-global.github.io/we-do-care-global/assets/logo.jpg'){this.src='https://we-do-care-global.github.io/we-do-care-global/assets/logo.jpg';}else{this.src='assets/logo.jpg';}" 
+         alt="We Do Care Global">
+  </div>
+  <p>AgentGuard v0.1.2 — <a href="https://github.com/we-do-care-global/agentguard" target="_blank" rel="noopener">GitHub</a> · <a href="https://orcid.org/0009-0009-8515-2727" target="_blank" rel="noopener">ORCID</a> · Apache 2.0</p>
+  <p style="margin-top:8px;font-size:0.8rem">Part of <a href="https://we-do-care-global.github.io/we-do-care-global/" target="_blank">We Do Care Global</a> · Sarajevo · 33% Humanitarian Pledge</p>
+</footer>
+
+<script>
+(() => {
+  const root = document.documentElement;
+  const btn = document.getElementById('themeBtn');
+  const saved = localStorage.getItem('wdcg-theme');
+  if (saved) root.dataset.theme = saved;
+  btn.textContent = root.dataset.theme === 'light' ? '☾' : '☼';
+  btn.addEventListener('click', () => {
+    const next = root.dataset.theme === 'light' ? 'dark' : 'light';
+    root.dataset.theme = next;
+    localStorage.setItem('wdcg-theme', next);
+    btn.textContent = next === 'light' ? '☾' : '☼';
+  });
+})();
+</script>
+</body>
+</html>
